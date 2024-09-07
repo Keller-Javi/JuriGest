@@ -1,0 +1,12 @@
+terminar los formularios 
+    sentecia:
+        - se elije entre revista o provincial 
+        - las instancias se tienen que elegir segun las opsiones que hay
+    doctrina:
+        - Ver si se va a cargar doctrinas
+
+inicio de sesion / crear cuenta
+    - ver si no queda mejor con un formularios
+
+mostrar sentencias
+    - una vez está lo anterior mostrar sentecias usando como ejemplo: https://github.com/Keller-Javi/ProjectManager/blob/main/PM_APP/views.py

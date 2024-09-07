@@ -1,0 +1,11 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block body %}
+<div>
+    <p>{{ sentencia.titulo }}</p>
+    <p>{{ sentencia.descripcion }}</p>
+    <p>{{ sentencia.fecha }}</p>
+    <p>{{ sentencia.a_quien_aplica }}</p>
+</div>
+{% endblock %}
