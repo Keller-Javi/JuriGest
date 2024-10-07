@@ -20,6 +20,7 @@
             color: #6069BB; /* Cambia el color al pasar el ratón si lo deseas */
         }
     </style>
+    <link rel="icon" href="{% static 'Logo_ico.jpg' %}  " type="image/x-icon">
 </head>
 <body class="d-flex flex-column min-vh-100">
         <nav class="shadow-sm">
@@ -47,8 +48,8 @@
                     <li class="nav-item dropdown pe-5">
                         <a class="nav-link dropdown-toggle mt-auto fs-5 mb-0" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">{{user.first_name}}</a>
                         <ul class="dropdown-menu ">
-                            <li><a class="dropdown-item d-flex justify-content-center" href="#">Action</a></li>
-                            <div class="mb-3 d-flex justify-content-center">
+                            <!--<li><a class="dropdown-item d-flex justify-content-center" href="#">Action</a></li>-->
+                            <div class="d-flex justify-content-center">
                                 <form action="{% url 'logout' %}">
                                     <button class="btn btn-danger"> Cerrar sesión </button>
                                 </form>

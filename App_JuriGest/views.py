@@ -7,6 +7,7 @@ from .forms import FormularioSentencia, IngresoCustom, CreacionUsuarioCustom, Fi
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from django.core.paginator import Paginator
+import datetime
 
 
 # Create your views here.
@@ -68,22 +69,19 @@ def home_view(request):
 
         # Filtrar por año (si no se seleccionó "todos")
         año = form.data.get('año')
-        print(año)
         if año and año != 'todos':
             sentencias_list = sentencias_list.filter(fecha__year=año)
 
         # Filtrar por revista o provincial
         revista_o_provincial = form.data.get('revista_o_provincial')
-        print(revista_o_provincial)
         if revista_o_provincial and revista_o_provincial != 'todos':
             sentencias_list = sentencias_list.filter(revista_o_provincial=revista_o_provincial)
 
         # Filtrar por instancia
         instancia = form.data.get('instancia')
-        print(instancia)
         if instancia and instancia != 'todos':
             sentencias_list = sentencias_list.filter(instancia=instancia)
-
+    
     # Paginación
     paginator = Paginator(sentencias_list, 7)  # 7 sentencias por página
     page_number = request.GET.get('page')
@@ -92,21 +90,27 @@ def home_view(request):
     return render(request, 'index.html', {'form': form, 'page_obj': page_obj})
 
 
-
 @login_required
 def create_sentence_view(request):
-    if request.user.tipo == 'lector': # dado caso que un usuario lector entre se bloqueda desde código
-            return HttpResponseForbidden("No tienes permiso para ver esta página.")
+    if request.user.tipo == 'lector':  # Bloquea el acceso a lectores
+        return HttpResponseForbidden("No tienes permiso para ver esta página.")
     if request.method == 'GET':
-        return render(request, 'CrearSentencia.html', {'form':FormularioSentencia(), 'page': 1})
+        return render(request, 'CrearSentencia.html', {'form': FormularioSentencia(), 'page': 1})
     else:
         form = FormularioSentencia(request.POST)
         if form.is_valid():
             sentencia = form.save(commit=False)
-            sentencia.user = request.user  # Asigna el usuario autenticado al campo 'user'
+            
+            fecha = form.cleaned_data.get('fecha')
+            if fecha and fecha.date() > datetime.date.today():  # Se compara las fechas
+                return render(request, 'CrearSentencia.html', {'form': form, 'page': 1, 'error': 'No puede ingresar una fecha futura.'})
+            
+            sentencia.user = request.user # Se asigna quien creó la sentencia
             sentencia.save()
             return redirect('home')
-        return redirect('home')
+        
+        # Si el formulario no es válido, volvemos a la página con los errores
+        return render(request, 'CrearSentencia.html', {'form': form, 'page': 1, 'error': 'Complete todos los campos.'})
 
 @login_required
 def sentence_view(request, id):

@@ -45,7 +45,7 @@ class Sentencia(models.Model):
     revista_o_provincial = models.CharField(max_length=10, choices=REVISTA_O_PROVINCIAL_CHOICES)
     instancia = models.CharField(max_length=20, choices=INSTANCIA_CHOICES)
 
-    user = models.ForeignKey(UsuarioBase, on_delete=models.CASCADE)
+    user = models.ForeignKey(UsuarioBase, on_delete=models.CASCADE) # Esto no debería estar, en caso de que se elimine un juez, no debería limpiar sus sentencias
 
     def __str__(self):
         return self.titulo

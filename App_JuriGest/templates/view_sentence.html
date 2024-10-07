@@ -2,10 +2,16 @@
 {% load static %}
 
 {% block body %}
-<div>
-    <p>{{ sentencia.titulo }}</p>
-    <p>{{ sentencia.descripcion }}</p>
-    <p>{{ sentencia.fecha }}</p>
-    <p>{{ sentencia.a_quien_aplica }}</p>
+<div class="container my-5">
+    <div class="card shadow-sm" style="background-color: #f8f9fa;">
+        <div class="card-body">
+            <h3 class="card-title" style="color: #343a40;">{{ sentencia.titulo }}</h3>
+            <hr class="my-3">
+            <p class="card-text text-muted"><strong>Descripción:</strong> {{ sentencia.descripcion }}</p>
+            <p class="card-text text-muted"><strong>Fecha:</strong> {{ sentencia.fecha }}</p>
+            <p class="card-text text-muted"><strong>A quien aplica:</strong> {{ sentencia.a_quien_aplica }}</p>
+            <p class="card-text text-muted"><strong>Autor:</strong> {{ sentencia.user }}</p>
+        </div>
+    </div>
 </div>
 {% endblock %}
